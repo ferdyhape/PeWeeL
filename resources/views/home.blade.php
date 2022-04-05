@@ -60,8 +60,7 @@
                             <td>{{ $p->price }}</td>
                             <td>{{ $p->quantity }}</td>
                             <td class="d-flex justify-content-evenly">
-                                <a href="product/{{ $p->id }}" class="badge bg-success"><i class="bi bi-eye-fill" style="font-size: 18px;"></i></a>
-                                <a href="product/{{ $p->id }}/edit" class="badge bg-warning"><i class="bi bi-pencil-square" style="font-size: 18px;"></i></a>
+                                <a href="home/{{ $p->id }}/edit" class="badge bg-warning"><i class="bi bi-pencil-square" style="font-size: 18px;"></i></a>
                                 <form action="home/{{ $p->id }}" method="POST">
                                     @method('delete')
                                     @csrf
