@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class ProductController extends Controller
 {
@@ -27,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('add-data');
     }
 
     /**
@@ -38,7 +39,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'product_name' => 'required|min:3|max:255',
+            'category' => 'required|min:3|max:255',
+            'price' => 'required|integer',
+            'quantity' => 'required|integer',
+        ]);
+
+        Product::create($validatedData);
+
+        return redirect('/home')->with('success', 'Successfully added data!');
     }
 
     /**
@@ -81,8 +91,12 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+
+        $product = Product::find($id);
+        $product->delete();
+
+        return redirect('/home')->with('success', 'Item data deleted successfully');
     }
 }
