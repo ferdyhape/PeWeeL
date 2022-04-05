@@ -68,9 +68,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
+        return view('edit-data', [
+            'product' => Product::find($id),
+        ]);
     }
 
     /**
@@ -80,9 +82,21 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+
+        $rules = ([
+            'product_name' => 'required|min:3|max:255',
+            'category' => 'required|min:3|max:255',
+            'price' => 'required|integer',
+            'quantity' => 'required|integer',
+        ]);
+
+        $validatedData = $request->validate($rules);
+
+        Product::where('id', $id)->update($validatedData);
+
+        return redirect('/home')->with('success', 'Item data updated successfully');
     }
 
     /**
